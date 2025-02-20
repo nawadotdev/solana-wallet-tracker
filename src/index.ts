@@ -4,7 +4,7 @@ import "dotenv/config";
 import { readdirSync } from "fs";
 
 const client = new Client({
-    intents : [GatewayIntentBits.Guilds],
+    intents: [GatewayIntentBits.Guilds],
     presence: {
         status: botConfig.botSettings.status,
         activities: [
@@ -13,8 +13,9 @@ const client = new Client({
                 type: botConfig.botSettings.activityType
             }
         ]
-    }
-})
+    },
+});
+
 
 const eventFiles = readdirSync("./src/events").filter(file => file.endsWith(".ts") || file.endsWith(".js"));
 for (const file of eventFiles) {
