@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/nawadotdev/solana-wallet-tracker#readme",
   "dependencies": {
+    "@solana/buffer-layout": "^4.0.1",
+    "@solana/buffer-layout-utils": "^0.2.0",
     "@solana/web3.js": "^1.98.0",
     "discord.js": "^14.18.0",
     "dotenv": "^16.4.7",
