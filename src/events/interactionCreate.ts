@@ -6,7 +6,7 @@ import commands from "../utils/commandHandler";
 export default (client: Client) => client.on(Events.InteractionCreate, async (interaction: BaseInteraction) => {
 
     if (interaction.isAutocomplete()) return;
-    console.log(interaction.isChatInputCommand())
+
     if (interaction.isChatInputCommand()) {
 
         const command = commands.get(interaction.commandName)

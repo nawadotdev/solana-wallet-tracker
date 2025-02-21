@@ -2,6 +2,7 @@ import { Client, GatewayIntentBits } from "discord.js";
 import botConfig from "./config/botConfig";
 import "dotenv/config";
 import { readdirSync } from "fs";
+import { connectDB } from "./config/db";
 
 const client = new Client({
     intents: [GatewayIntentBits.Guilds],
@@ -25,4 +26,6 @@ for (const file of eventFiles) {
 }
 
 
-client.login(botConfig.bot.token).catch(console.error);
+connectDB().then(() => {
+    client.login(botConfig.bot.token);
+})
