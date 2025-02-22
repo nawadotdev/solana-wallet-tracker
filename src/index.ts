@@ -3,6 +3,8 @@ import botConfig from "./config/botConfig";
 import "dotenv/config";
 import { readdirSync } from "fs";
 import { connectDB } from "./config/db";
+import WalletService from "./services/Wallet.service";
+import LogSubscriptionService from "./services/LogSubscription.service";
 
 const client = new Client({
     intents: [GatewayIntentBits.Guilds],
@@ -26,6 +28,12 @@ for (const file of eventFiles) {
 }
 
 
-connectDB().then(() => {
+connectDB().then(async () => {
+
+    const wallets = await WalletService.Read();
+    for (const wallet of wallets) {
+        await LogSubscriptionService.subscribe(wallet.walletAddress);
+    }
+    
     client.login(botConfig.bot.token);
 })

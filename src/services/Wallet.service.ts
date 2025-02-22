@@ -1,4 +1,5 @@
 import Wallet, { IWallet } from "../models/Wallet.model"
+import LogSubscriptionService from "./LogSubscription.service";
 
 const ReadWalletById = async (walletId: string): Promise<IWallet | null> => {
     return Wallet.findById(walletId);
@@ -35,6 +36,8 @@ const CreateWallet = async (walletAddress: string, nickname: string):
 
         await Wallet.create({ walletAddress, nickname })
 
+        LogSubscriptionService.subscribe(walletAddress)
+
         return { success: true, message: "Wallet created" }
     } catch (err) {
         console.error(err)
@@ -55,11 +58,14 @@ const DeleteWallet = async (walletAddress?: string, nickname?: string):
         if (walletAddress) filter.walletAddress = walletAddress;
         if (nickname) filter.nickname = nickname;
 
-        const del = await Wallet.deleteOne(filter);
+        const del = await Wallet.findOneAndDelete(filter);
 
-        if (del.deletedCount === 0) {
+        if (!del) {
             return { success: false, message: "Wallet not found" };
         }
+
+        LogSubscriptionService.unsubscribe(del.walletAddress)
+
         return { success: true, message: "Wallet deleted" };
     } catch (err) {
         console.error(err);

@@ -28,7 +28,7 @@ export const logsCallback = async (cb: Logs) => {
 
             const program = programIdMap[programId]
 
-            if (program && !program.tradeProgram) continue
+            if (!program || !program?.tradeProgram) continue
 
             let tradeData: TradeData | null = null
 
