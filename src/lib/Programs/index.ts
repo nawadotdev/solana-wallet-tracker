@@ -1,5 +1,5 @@
 import { Solana } from "../../constants"
-import { getTradeDataWithLogsParams, getTradeDataWithTransactionParams, TradeData } from "../../types/trade"
+import { getTradeDataWithLogsParams, getTradeDataWithTransactionParams, Program, TradeData } from "../../types/trade"
 import { PumpFunProgram } from "./PumpFun"
 import { RaydiumAmmProgram } from "./RaydiumAmm"
 import { RaydiumClmmProgram } from "./RaydiumClmm"
@@ -19,7 +19,7 @@ const knownNonTradeProgram = {
     getTradeData : (params: (getTradeDataWithLogsParams | getTradeDataWithTransactionParams)) => ({} as TradeData | null)
 }
 
-const programIdMap = {
+const programIdMap : Record<string, Program> = {
     [Solana.TokenProgram.toString()]: {
         ...knownNonTradeProgram,
         programId : Solana.TokenProgram

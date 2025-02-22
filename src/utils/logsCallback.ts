@@ -1,6 +1,7 @@
 import { Logs, ParsedTransactionWithMeta } from "@solana/web3.js";
 import { TradeData } from "../types/trade";
 import { logParser } from "./logParser";
+import { programIdMap } from "../lib/Programs";
 
 export const logsCallback = (cb: Logs) => {
 
@@ -23,6 +24,27 @@ export const logsCallback = (cb: Logs) => {
             const programId = grouppedLog.programId?.toString()
 
             if(!programId) continue
+
+            const program = programIdMap[programId]
+
+            if(program && !program.tradeProgram) continue
+
+            let tradeData : TradeData | null = null
+
+            if(program.fetchRequired){
+            }else{
+                tradeData = program.getTradeData({
+                    logs: grouppedLog.logs,
+                })
+            }
+
+            if(tradeData){
+                trades.push(tradeData)
+            }
+        }
+
+        if(trades.length > 0){
+            console.log(trades)
         }
 
     }catch(err){
