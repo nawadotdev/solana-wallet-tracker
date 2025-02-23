@@ -1,10 +1,10 @@
-import { Logs, ParsedTransactionWithMeta, PartiallyDecodedInstruction } from "@solana/web3.js";
+import { Logs, ParsedTransactionWithMeta, PartiallyDecodedInstruction, PublicKey } from "@solana/web3.js";
 import { TradeData } from "../types/trade";
 import { logParser } from "./logParser";
 import { programIdMap } from "../lib/Programs";
 import { fetchTransaction } from "../services/Solana.service";
 
-export const logsCallback = async (cb: Logs) => {
+export const logsCallback = async (cb: Logs, targetUser: PublicKey, nickname: string) => {
 
     if (cb.err) return
 

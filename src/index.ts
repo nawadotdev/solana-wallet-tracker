@@ -32,7 +32,7 @@ connectDB().then(async () => {
 
     const wallets = await WalletService.Read();
     for (const wallet of wallets) {
-        await LogSubscriptionService.subscribe(wallet.walletAddress);
+        await LogSubscriptionService.subscribe(wallet.walletAddress, wallet.nickname);
     }
     
     client.login(botConfig.bot.token);

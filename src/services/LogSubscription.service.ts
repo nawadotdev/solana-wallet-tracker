@@ -5,13 +5,14 @@ import { logsCallback } from "../utils/logsCallback";
 
 interface LogSubscription {
     walletAddress: string;
+    nickname: string;
     subscriptionId: number;
 }
 
 class LogSubscriptionService {
     private static subscriptions: Map<string, LogSubscription> = new Map();
 
-    static async subscribe(walletAddress: string): Promise<boolean> {
+    static async subscribe(walletAddress: string, nickname: string): Promise<boolean> {
         console.log("Subscribing to wallet:", walletAddress)
         try {
             if (this.subscriptions.has(walletAddress)) {
@@ -19,11 +20,12 @@ class LogSubscriptionService {
             }
 
             const subscriptionId = subscribeLogs(new PublicKey(walletAddress), (cb) => {
-                logsCallback(cb)
+                logsCallback(cb, new PublicKey(walletAddress), nickname)
             });
 
             this.subscriptions.set(walletAddress, {
                 walletAddress,
+                nickname,
                 subscriptionId
             });
 
