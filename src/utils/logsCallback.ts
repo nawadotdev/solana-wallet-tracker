@@ -58,6 +58,8 @@ export const logsCallback = async (cb: Logs, targetUser: PublicKey, nickname: st
             if (tradeData) trades.push(tradeData)
         }
 
+        trades = trades.filter(trade => trade.user.toString() === targetUser.toString())
+
         if (trades.length > 0) {
             console.log(trades)
         }
